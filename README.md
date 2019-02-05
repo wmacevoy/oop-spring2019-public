@@ -27,3 +27,6 @@ If you missed this, you can edit in mocha by adding
 
 in the `package.json` file npm init created for you.
 
+Tutorial example:
+
+https://codeburst.io/how-to-test-javascript-with-mocha-the-basics-80132324752e
