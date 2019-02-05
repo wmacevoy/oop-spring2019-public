@@ -30,3 +30,13 @@ in the `package.json` file npm init created for you.
 Tutorial example:
 
 https://codeburst.io/how-to-test-javascript-with-mocha-the-basics-80132324752e
+
+## Splitting tests:
+
+Change the `package.json` so it reads
+
+```js
+"scripts": {
+    "test": "mocha --recursive"
+  },
+```
