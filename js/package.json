@@ -1,0 +1,11 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "marker.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC"
+}
