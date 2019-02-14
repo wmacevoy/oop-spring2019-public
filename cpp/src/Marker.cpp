@@ -1,6 +1,6 @@
-#pragma once
-
 #include "Marker.h"
+
+#include <iostream>
 
 namespace marker {
     
