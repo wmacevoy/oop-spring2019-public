@@ -4,6 +4,6 @@ using namespace marker;
 
 int main() {
     Marker blackMarker(Color::BLACK);
-
+    blackMarker.setCapped(false);
     blackMarker.draw();
 }
