@@ -2,8 +2,21 @@
 
 using namespace marker;
 
+#include <memory>
+
+void drawLine(const Marker &marker) {
+    marker.draw();
+}
+
 int main() {
+    std::shared_ptr < Marker > greenMarkerSP(new Marker(Color::GREEN));
+    Marker *redMarkerPtr = new Marker(Color::RED);
     Marker blackMarker(Color::BLACK);
-    blackMarker.setCapped(false);
-    blackMarker.draw();
+    // blackMarker.setCapped(false);
+    redMarkerPtr->setCapped(false);
+    greenMarkerSP->setCapped(false);
+    drawLine(blackMarker);
+    redMarkerPtr->draw();
+    greenMarkerSP->draw();
+    delete redMarkerPtr;
 }
