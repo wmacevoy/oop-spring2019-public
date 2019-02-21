@@ -4,9 +4,9 @@
 
 namespace marker {
     
-        Marker::Marker(Color _color) {
-          color= _color;
-          capped = true;
+        Marker::Marker(Color _color)
+          : color(_color), capped(true) 
+        {
         } 
 
         Color Marker::getColor() {

@@ -6,8 +6,8 @@
 namespace marker {
     
     class Marker {
-        private: Color color;
         private: bool capped;
+        private: const Color color;
         public: Marker(Color _color);
         public: Color getColor();
         public: void setColor(Color _color);
