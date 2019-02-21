@@ -6,14 +6,14 @@
 namespace marker {
     
     class Marker {
-        private: bool capped;
         private: const Color color;
+        private: bool capped;
         public: Marker(Color _color);
-        public: Color getColor();
-        public: void setColor(Color _color);
-        public: bool isCapped();
+        public: Color getColor() const;
+        public: bool isCapped() const;
         public: void setCapped(bool _capped);
-        public: void draw();
-        public: static BadMarkerState BAD_MARKER_CAPPED_DRAW;
+        public: void draw() const;
+        public: ~Marker();
+        public: static const BadMarkerState BAD_MARKER_CAPPED_DRAW;
     };
 }
