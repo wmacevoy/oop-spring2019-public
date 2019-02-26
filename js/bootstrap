@@ -1,0 +1,22 @@
+# use a docker host bind to the disk of your e.g. laptop
+
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+if [ -f package.json ]
+then
+  echo "project already initialized."
+  exit 1
+fi
+
+cat <<EOF>init.me
+npm install -g @vue/cli
+cd /usr/src/app
+vue create .
+EOF
+chmod +x init.me
+
+container_id=$(docker run -itd -v "$(pwd)":/usr/src/app node:10.9-slim)
+docker exec -i $container_id /bin/bash -x /usr/src/app/init.me
+docker rm -f $container_id
+
+docker-compose up

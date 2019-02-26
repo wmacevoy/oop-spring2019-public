@@ -1,0 +1,30 @@
+version: "3.3"
+
+services: 
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "8000:8000"  # only needed if using vue-cli UI
+    volumes:
+      - .:/usr/src/app
+    stdin_open: true
+    tty: true
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure 
+        max_attempts: 5
+      resources:
+        limits:
+          cpus: "1"
+          memory: "2048M"
+    environment:
+      # https://cli.vuejs.org/guide/mode-and-env.html#modes
+      # development is used by vue-cli-service serve
+      - NODE_ENV=development
+      # one way for hot reloading ... see above for details 
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=1000
