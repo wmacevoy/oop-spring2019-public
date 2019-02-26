@@ -23,6 +23,19 @@ class WritingUtensil {
     }
 }
 
+class Pencil extends WritingUtensil {
+    constructor() {
+        let color = (arguments.length > 0 ? arguments[0] : "black");
+        super(color);
+        console.log("constructing " + this.color + " pencil");
+    }
+
+    // abstract
+    write() {
+        console.log("sketching in " + this.color);
+    }
+}
+
 class Marker extends WritingUtensil {
     constructor(color) {
         super(color);
