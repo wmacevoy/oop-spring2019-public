@@ -60,3 +60,19 @@ Change the `package.json` so it reads
     "test": "mocha --recursive"
   },
 ```
+
+put your tests in the "test" directory. 
+
+Add chai to the node project with
+
+```bash
+cd /path/to/node/init/directory
+npm install --save chai
+```
+in the node directory to get the expect package.
+
+To run tests, type
+
+```bash
+npm test
+```

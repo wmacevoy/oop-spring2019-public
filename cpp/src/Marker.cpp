@@ -4,15 +4,15 @@
 
 namespace marker {
     
-        Marker::Marker(Color _color) 
-        : color(_color), capped(true)
+        Marker::Marker(Color _color)
+          : color(_color), capped(true) 
         {
         } 
 
         Color Marker::getColor() const {
             return color;
         }
-        
+    
         bool Marker::isCapped() const {
             return capped;
         }
@@ -30,7 +30,8 @@ namespace marker {
         }
 
         Marker::~Marker() {
-            std::cout << "cleanup marker@" << ((void*) this) << std::endl;
+            std::cout << "destructing marker@" 
+                        << ((void*) this) << std::endl; 
         }
         
         const BadMarkerState Marker::BAD_MARKER_CAPPED_DRAW("drawing with capped marker is bad");
