@@ -11,6 +11,7 @@ RUN apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
+VOLUME /usr/src/app
 
 # Or just use EXPORT 8080
 EXPOSE 8080
