@@ -12,17 +12,17 @@ THIS_NAME="${THIS_DIR#"$THIS_PROJECTS_DIR/"}"
 this_name="$(echo $THIS_NAME | tr ' [:upper:]' '_[:lower:]')"
 
 #
-# build container only if container has changed
+# build container(s) only if container has changed
 #
-
-rebuild=false
-if [ "$(docker images --format "{{.Repository}}:{{.Tag}}" "$this_name/node:latest")" != "$this_name/node:latest" ]
-then
-  rebuild=true
-fi
 
 for container in node
 do
+    rebuild=false
+    if [ "$(docker images --format "{{.Repository}}:{{.Tag}}" "$this_name/$container:latest")" != "$this_name/$container:latest" ]
+    then
+        rebuild=true
+    fi
+
     hash1=$((cd "$THIS_DIR/dockers/$container"; find . -type f -print0 | xargs -0 openssl dgst -sha256) | sort | openssl dgst -sha256 | cut -d' ' -f2 )
     hash2="$(test -f "$THIS_DIR/dockers/$container.tag" && cat "$THIS_DIR/dockers/$container.tag")"
 
@@ -33,10 +33,11 @@ do
 
     if [ "$rebuild" = true ]
     then
-    if docker build -t "$this_name/$container" "$PARENT_DIR/dockers/$container" > "$THIS_DIR/dockers/$container.log"
-    then
-        echo $hash1 >"$PARENT_DIR/dockers/$container.tag"
+        if docker build -t "$this_name/$container" "$THIS_DIR/dockers/$container" > "$THIS_DIR/dockers/$container.log"
+        then
+            echo $hash1 >"$THIS_DIR/dockers/$container.tag"
+        fi
     fi
-fi
+done
 
-docker run --rm -i --user="$(id -u):$(id -g)" -v "$PWD":/usr/src/app "$parent_name/node" "$@"
+docker run --rm -i --user="$(id -u):$(id -g)" -v "$PWD":/usr/src/app "$this_name/node:latest" "$@"
