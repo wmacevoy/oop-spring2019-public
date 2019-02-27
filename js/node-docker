@@ -1,0 +1,42 @@
+#!/bin/bash
+
+#
+# figure out where we are at
+#
+
+THIS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)"
+THIS_GIT_DIR="$(while [ "$PWD" != "/" -a ! -d .git ] ; do cd .. ; done ; echo $PWD)"
+THIS_PROJECTS_DIR="$(dirname $THIS_GIT_DIR)"
+THIS_NAME="${THIS_DIR#"$THIS_PROJECTS_DIR/"}"
+
+this_name="$(echo $THIS_NAME | tr ' [:upper:]' '_[:lower:]')"
+
+#
+# build container only if container has changed
+#
+
+rebuild=false
+if [ "$(docker images --format "{{.Repository}}:{{.Tag}}" "$this_name/node:latest")" != "$this_name/node:latest" ]
+then
+  rebuild=true
+fi
+
+for container in node
+do
+    hash1=$((cd "$THIS_DIR/dockers/$container"; find . -type f -print0 | xargs -0 openssl dgst -sha256) | sort | openssl dgst -sha256 | cut -d' ' -f2 )
+    hash2="$(test -f "$THIS_DIR/dockers/$container.tag" && cat "$THIS_DIR/dockers/$container.tag")"
+
+    if [ "$hash1" != "$hash2" ]
+    then
+        rebuild=true
+    fi 
+
+    if [ "$rebuild" = true ]
+    then
+    if docker build -t "$this_name/$container" "$PARENT_DIR/dockers/$container" > "$THIS_DIR/dockers/$container.log"
+    then
+        echo $hash1 >"$PARENT_DIR/dockers/$container.tag"
+    fi
+fi
+
+docker run --rm -i --user="$(id -u):$(id -g)" -v "$PWD":/usr/src/app "$parent_name/node" "$@"
