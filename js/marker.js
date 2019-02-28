@@ -23,6 +23,19 @@ class WritingUtensil {
     }
 }
 
+class Pencil extends WritingUtensil {
+    constructor(/* color = "black" */) {
+        console.log("constructing marker");
+        let color = (arguments.length > 0) ? arguments[0] : "black";
+        super(color);
+    }
+
+    /* override */
+    write() {
+      console.log("sketching in " + this.color);
+    }
+}
+
 class Marker extends WritingUtensil {
     constructor(color) {
         super(color);
@@ -31,7 +44,7 @@ class Marker extends WritingUtensil {
     }
 
     // override
-    draw() {
+    write() {
         if (!this._capped) {
            console.log("writing in " + this.color);
         } else {
@@ -56,5 +69,7 @@ Marker.BAD_MARKER_CAPPED_DRAW = new BadMarkerState("drawing with capped marker i
 Marker.BAD_MARKER_CAPPED_INVALID = new BadMarkerState("capped must be true or false");
 
 
+exports.WritingUtensil = WritingUtensil;
 exports.Marker = Marker;
+exports.Pencil = Pencil;
 exports.BadMarkerState = BadMarkerState;

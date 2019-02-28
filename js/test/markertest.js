@@ -18,7 +18,7 @@ describe('Marker', function() {
     });
     it('should fail to draw when capped', function() {
         let blackMarker = new marker.Marker("black");
-        expect(blackMarker.draw().to.throw(Marker.BAD_MARKER_CAPPED_DRAW));
+        expect(()=>{ blackMarker.write() }).to.throw(marker.Marker.BAD_MARKER_CAPPED_DRAW);
     });
   });
 });
