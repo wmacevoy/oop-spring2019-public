@@ -5,13 +5,9 @@
 namespace marker {
     
         Marker::Marker(Color _color)
-          : color(_color), capped(true) 
+          : WritingUtensil(_color), capped(true) 
         {
         } 
-
-        Color Marker::getColor() const {
-            return color;
-        }
     
         bool Marker::isCapped() const {
             return capped;
@@ -21,7 +17,7 @@ namespace marker {
             capped = _capped;
         }
         
-        void Marker::draw() const {
+        void Marker::write() const {
             if (!isCapped()) {
                 std::cout << "drawing in " << getColor() << std::endl;
             } else {

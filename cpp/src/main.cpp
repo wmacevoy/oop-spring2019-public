@@ -5,7 +5,7 @@ using namespace marker;
 #include <memory>
 
 void drawLine(const Marker &marker) {
-    marker.draw();
+    marker.write();
 }
 
 int main() {
@@ -16,7 +16,7 @@ int main() {
     redMarkerPtr->setCapped(false);
     greenMarkerSP->setCapped(false);
     drawLine(blackMarker);
-    redMarkerPtr->draw();
-    greenMarkerSP->draw();
+    redMarkerPtr->write();
+    greenMarkerSP->write();
     delete redMarkerPtr;
 }

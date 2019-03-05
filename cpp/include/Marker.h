@@ -2,17 +2,16 @@
 
 #include "Color.h"
 #include "BadMarkerState.h"
+#include "WritingUtensil.h"
 
 namespace marker {
     
-    class Marker {
-        private: const Color color;
+    class Marker : public WritingUtensil {
         private: bool capped;
         public: Marker(Color _color);
-        public: Color getColor() const;
         public: bool isCapped() const;
         public: void setCapped(bool _capped);
-        public: void draw() const;
+        public: void write() const override;
         public: ~Marker();
         public: static const BadMarkerState BAD_MARKER_CAPPED_DRAW;
     };
