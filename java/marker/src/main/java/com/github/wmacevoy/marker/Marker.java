@@ -9,7 +9,7 @@ package com.github.wmacevoy.marker;
  *
  * @author wmacevoy
  */
-public class Marker {
+public class Marker implements WritingUtensil  {
     private Color color;
     private boolean capped;
     
@@ -44,5 +44,10 @@ public class Marker {
     
     static public BadMarkerState BAD_MARKER_CAPPED_DRAW
             = new BadMarkerState("drawing with capped marker is bad");
+
+    @Override
+    public void write() throws BadMarkerState {
+        draw();
+    }
     
 }

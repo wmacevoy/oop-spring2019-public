@@ -9,7 +9,7 @@ package com.github.wmacevoy.marker;
  *
  * @author wmacevoy
  */
-public class BadMarkerState extends Exception {
+public class BadMarkerState extends BadWriteException {
     private String problem;
     BadMarkerState(String problem) {
         this.problem = problem;
