@@ -6,7 +6,7 @@
 
 namespace marker {
     
-    class Marker : public WritingUtensil {
+    class Marker : public virtual WritingUtensil {
         private: bool capped;
         public: Marker(Color _color);
         public: bool isCapped() const;

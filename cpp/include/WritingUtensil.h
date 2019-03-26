@@ -7,11 +7,12 @@ namespace marker {
         public: WritingUtensil(Color color=Color::BLACK);
 
         public: virtual Color getColor() const;
+        public: virtual void setColor(Color color);
         public: virtual void write() const=0;
 
         public: virtual ~WritingUtensil();
 
-        private: const Color color;
+        private: Color color;
     };
 
 }

@@ -1,4 +1,6 @@
 #include "Marker.h"
+#include "Pencil.h"
+#include "PencilMarker.h"
 
 using namespace marker;
 
@@ -8,8 +10,16 @@ void drawLine(const Marker &marker) {
     marker.write();
 }
 
+typedef std::shared_ptr < marker::WritingUtensil > WUP;
+typedef std::shared_ptr < marker::Pencil > PP;
+typedef std::shared_ptr < marker::Marker > MP;
+typedef std::shared_ptr < marker::PencilMarker > PMP;
 int main() {
-    std::shared_ptr < Marker > greenMarkerSP(new Marker(Color::GREEN));
+    PMP pm(new PencilMarker(Color::RED));
+    pm->setColor(Color::BLUE);
+    pm->setCapped(false);
+    pm->write();
+    MP greenMarkerSP(new Marker(Color::GREEN));
     Marker *redMarkerPtr = new Marker(Color::RED);
     Marker blackMarker(Color::BLACK);
     // blackMarker.setCapped(false);
