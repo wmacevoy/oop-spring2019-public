@@ -2,6 +2,9 @@ CXXFLAGS=-std=c++14 -Iinclude -fPIC
 
 all : bin/marker
 
+tmp/Color.o : src/Color.cpp include/Color.h
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
 tmp/WritingUtensil.o : src/WritingUtensil.cpp include/WritingUtensil.h include/BadMarkerState.h include/Color.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
@@ -17,7 +20,7 @@ tmp/PencilMarker.o : src/PencilMarker.cpp include/WritingUtensil.h include/Penci
 tmp/BadMarkerState.o : src/BadMarkerState.cpp include/BadMarkerState.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-lib/libmarker.so : tmp/Marker.o tmp/Pencil.o tmp/PencilMarker.o tmp/BadMarkerState.o tmp/WritingUtensil.o
+lib/libmarker.so : tmp/Marker.o tmp/Pencil.o tmp/PencilMarker.o tmp/BadMarkerState.o tmp/WritingUtensil.o tmp/Color.o
 	$(CXX) $(CXXFLAGS) -shared -o $@ $^
 
 tmp/main.o : src/main.cpp include/Marker.h include/Pencil.h include/PencilMarker.h include/WritingUtensil.h include/BadMarkerState.h include/Color.h

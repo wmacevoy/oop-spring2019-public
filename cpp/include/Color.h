@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 namespace marker {
 enum Color {
     BLACK,
@@ -8,4 +10,8 @@ enum Color {
     BLUE,
     BROWN
 };
+
+std::ostream& operator<<(std::ostream &out, const Color &color);
+
 } // namespace marker
+

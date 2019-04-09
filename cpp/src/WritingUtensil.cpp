@@ -14,7 +14,7 @@ namespace marker {
    WritingUtensil::WritingUtensil(Color _color)
     : color(_color) 
     {
-        std::cout << "made wu at " << (void*) (this) << std::endl;
+        std::cout << "made " << color << " wu at " << (void*) (this) << std::endl;
     }
     
     WritingUtensil::~WritingUtensil() {

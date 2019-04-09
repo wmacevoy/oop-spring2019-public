@@ -7,7 +7,7 @@ namespace marker {
         Pencil::Pencil(Color _color)
           : WritingUtensil(_color)
         {
-            std::cout << "made pencil at " << (void*) (this) << std::endl;
+            std::cout << "made " << getColor() << " pencil at " << (void*) (this) << std::endl;
         } 
         
         void Pencil::write() const {

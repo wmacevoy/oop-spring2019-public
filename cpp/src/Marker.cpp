@@ -7,6 +7,7 @@ namespace marker {
         Marker::Marker(Color _color)
           : WritingUtensil(_color), capped(true) 
         {
+            std::cout << "made " << getColor() << " marker @" << ((void*) this) << std::endl;
         } 
     
         bool Marker::isCapped() const {
