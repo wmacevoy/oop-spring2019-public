@@ -50,11 +50,14 @@ class Lazy
   private:
     std::mutex mutex;
 
+  public:
     Lazy(Factory *_factory)
     {
         factory = _factory;
         object = 0;
     }
+
+  public:
     Object *item()
     {
         if (object == 0)
@@ -62,7 +65,7 @@ class Lazy
             std::lock_guard<std::mutex> lock(mutex);
             if (object == 0)
             {
-                object = factory->create();
+                object = dynamic_cast<Object*>(factory->create());
             }
         }
         return object;
@@ -80,7 +83,7 @@ fill(WUFactory &factory)
     }
 }
 
-typedef Lazy<PencilBuilder, marker::Pencil> LazyPencil;
+typedef Lazy<marker::Pencil, PencilBuilder> LazyPencil;
 
 using namespace marker;
 
@@ -104,6 +107,12 @@ int main()
     PencilBuilder pb;
     pb.setColor(Color::RED);
     std::vector<WritingUtensil *> redBox = fill(pb);
+
+    LazyPencil lp(&pb);
+
+    std::cout << "lazy:" << std::endl;
+    lp.item()->write();
+    lp.item()->write();
 
     pb.setColor(Color::GREEN);
     std::vector<WritingUtensil *> greenBox = fill(pb);
