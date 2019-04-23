@@ -23,6 +23,13 @@ class WritingUtensil {
     }
 }
 
+class WritingUtensilFactory {
+    create() { 
+        throw new Error("create is abstract");        
+    }
+}
+
+
 class Pencil extends WritingUtensil {
     constructor(/* color = "black" */) {
         console.log("constructing marker");
@@ -34,6 +41,66 @@ class Pencil extends WritingUtensil {
     write() {
       console.log("sketching in " + this.color);
     }
+}
+
+class MarkerBuilder extends WritingUtensilFactory {
+    constructor() {
+        this.color = "BLACK";
+        this.capped = false;
+        return this;
+    }
+    get color() { 
+        return this.color;
+    }
+    set color(value) {
+        this.color = value;
+        return this;
+    }
+    get capped() { 
+        return this.capped;
+    }
+    set capped(value) {
+        this.capped = value;
+        return this;
+    }
+
+    create() {
+        let marker = new Marker(this.color);
+        marker.capped = this.capped;
+        return marker;
+    }
+}
+
+class PencilBuilder extends WritingUtensilFactory {
+    constructor() {
+        this.color = "BLACK";
+        return this;
+    }
+    get color() { 
+        return this.color;
+    }
+    set color(value) {
+        this.color = value;
+        return this;
+    }
+
+    create() {
+        return new Pencil(this.color);
+    }
+}
+class LazyItem {
+    constructor(factory) {
+        this.factory = factory;
+        this.object = null;
+    }
+
+    get item() {
+        if (this.object == null) {
+            this.object = factory.create();
+        }
+        return this.object;
+    }
+
 }
 
 class Marker extends WritingUtensil {
