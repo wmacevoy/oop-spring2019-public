@@ -13,6 +13,8 @@ namespace marker {
         public: void setCapped(bool _capped);
         public: void write() const override;
         public: ~Marker();
+        public: std::shared_ptr<WritingUtensil> clone() const;
+        
         public: static const BadMarkerState BAD_MARKER_CAPPED_DRAW;
     };
 }

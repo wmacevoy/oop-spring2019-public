@@ -65,82 +65,86 @@ class Lazy
             std::lock_guard<std::mutex> lock(mutex);
             if (object == 0)
             {
-                object = dynamic_cast<Object*>(factory->create());
+                object = dynamic_cast<Object *>(factory->create());
             }
+            return object;
         }
-        return object;
-    }
-};
+    };
 
-std::vector<marker::WritingUtensil *>
-fill(WUFactory &factory)
-{
-    int size = 24;
-    std::vector<marker::WritingUtensil *> ans(size, 0);
-    for (int i = 0; i < size; ++i)
+    std::vector<marker::WritingUtensil *>
+    fill(WUFactory &factory)
     {
-        ans[i] = factory.create();
+        int size = 24;
+        std::vector<marker::WritingUtensil *> ans(size, 0);
+        for (int i = 0; i < size; ++i)
+        {
+            ans[i] = factory.create();
+        }
     }
-}
 
-typedef Lazy<marker::Pencil, PencilBuilder> LazyPencil;
+    typedef Lazy<marker::Pencil, PencilBuilder> LazyPencil;
 
-using namespace marker;
+    using namespace marker;
 
 #include <memory>
 
-void drawLine(const Marker &marker)
-{
-    marker.write();
-}
+    void drawLine(const Marker &marker)
+    {
+        marker.write();
+    }
 
-typedef std::shared_ptr<marker::WritingUtensil> WUP;
-typedef std::shared_ptr<marker::Pencil> PP;
-typedef std::shared_ptr<marker::Marker> MP;
-typedef std::shared_ptr<marker::PencilMarker> PMP;
-int main()
-{
-    graphics::IVec3 iv3;
+    typedef std::shared_ptr<marker::WritingUtensil> WUP;
+    typedef std::shared_ptr<marker::Pencil> PP;
+    typedef std::shared_ptr<marker::Marker> MP;
+    typedef std::shared_ptr<marker::PencilMarker> PMP;
+    int main()
+    {
+        graphics::IVec3 iv3;
 
-    iv3[0] = 2;
+        iv3[0] = 2;
 
-    PencilBuilder pb;
-    pb.setColor(Color::RED);
-    std::vector<WritingUtensil *> redBox = fill(pb);
+        PencilBuilder pb;
+        pb.setColor(Color::RED);
+        std::vector<WritingUtensil *> redBox = fill(pb);
 
-    LazyPencil lp(&pb);
+        std::vector<WritingUtensil *> redBox2 = redBox;
 
-    std::cout << "lazy:" << std::endl;
-    lp.item()->write();
-    lp.item()->write();
+        LazyPencil lp(&pb);
 
-    pb.setColor(Color::GREEN);
-    std::vector<WritingUtensil *> greenBox = fill(pb);
+        std::cout << "lazy:" << std::endl;
+        lp.item()->write();
+        lp.item()->write();
 
-    PencilMarker *greenPencilMarker = new PencilMarker(Color::GREEN);
+        std::shared_ptr<marker::WritingUtensil> dupPencil = lp.item()->clone();
+        dupPencil->write();
 
-    // BAD
-    WritingUtensil *greenWritingUtensilBroken =
-        (WritingUtensil *)greenPencilMarker;
+        pb.setColor(Color::GREEN);
+        std::vector<WritingUtensil *> greenBox = fill(pb);
 
-    // GOOD
-    WritingUtensil *greenWritingUtensilFixed =
-        dynamic_cast<WritingUtensil *>(greenPencilMarker);
+        PencilMarker *greenPencilMarker = new PencilMarker(Color::GREEN);
 
-    delete greenPencilMarker;
+        // BAD
+        WritingUtensil *greenWritingUtensilBroken =
+            (WritingUtensil *)greenPencilMarker;
 
-    PMP pm(new PencilMarker(Color::RED));
-    pm->setColor(Color::BLUE);
-    pm->setCapped(false);
-    pm->write();
-    MP greenMarkerSP(new Marker(Color::GREEN));
-    Marker *redMarkerPtr = new Marker(Color::RED);
-    Marker blackMarker(Color::BLACK);
-    // blackMarker.setCapped(false);
-    redMarkerPtr->setCapped(false);
-    greenMarkerSP->setCapped(false);
-    drawLine(blackMarker);
-    redMarkerPtr->write();
-    greenMarkerSP->write();
-    delete redMarkerPtr;
-}
+        // GOOD
+        WritingUtensil *greenWritingUtensilFixed =
+            dynamic_cast<WritingUtensil *>(greenPencilMarker);
+
+        delete greenPencilMarker;
+
+        PMP pm(new PencilMarker(Color::RED));
+        pm->setColor(Color::BLUE);
+        pm->setCapped(false);
+        pm->write();
+        MP greenMarkerSP(new Marker(Color::GREEN));
+        Marker *redMarkerPtr = new Marker(Color::RED);
+        Marker blackMarker(Color::BLACK);
+        // blackMarker.setCapped(false);
+        redMarkerPtr->setCapped(false);
+        greenMarkerSP->setCapped(false);
+        drawLine(blackMarker);
+        redMarkerPtr->write();
+        greenMarkerSP->write();
+        delete redMarkerPtr;
+    }

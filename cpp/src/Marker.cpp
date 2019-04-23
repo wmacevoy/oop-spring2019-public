@@ -26,6 +26,12 @@ namespace marker {
             }
         }
 
+        std::shared_ptr<WritingUtensil> Marker::clone() const {
+            Marker *copy = new Marker(getColor());
+            copy->setCapped(isCapped());
+            return std::shared_ptr<WritingUtensil>(copy);
+        }
+        
         Marker::~Marker() {
             std::cout << "destructing marker@" 
                         << ((void*) this) << std::endl; 

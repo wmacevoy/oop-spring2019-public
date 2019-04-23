@@ -14,6 +14,11 @@ namespace marker {
             std::cout << "sketching in " << getColor() << std::endl;
         }
 
+        std::shared_ptr<WritingUtensil> Pencil::clone() const {
+            Pencil *copy = new Pencil(getColor());
+            return std::shared_ptr<WritingUtensil>(copy);
+        }
+
         Pencil::~Pencil() {
             std::cout << "destructing pencil@" 
                         << ((void*) this) << std::endl; 

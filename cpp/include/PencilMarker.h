@@ -10,6 +10,7 @@ namespace marker {
     class PencilMarker : public Pencil, public Marker {
         public: PencilMarker(Color _color);
         public: void write() const override;
+        public: std::shared_ptr<WritingUtensil> clone() const;
         public: ~PencilMarker();
     };
 }

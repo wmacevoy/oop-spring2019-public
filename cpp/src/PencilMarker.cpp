@@ -16,6 +16,13 @@ namespace marker {
             Marker::write();
         }
 
+        std::shared_ptr<WritingUtensil> PencilMarker::clone() const {
+            PencilMarker *copy = new PencilMarker(getColor());
+            copy->setCapped(isCapped());
+            return std::shared_ptr<WritingUtensil>(copy);
+        }
+
+
         PencilMarker::~PencilMarker() {
             std::cout << "destructing pencil marker " << ((void*) this) << std::endl; 
         }
