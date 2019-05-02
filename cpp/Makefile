@@ -1,4 +1,4 @@
-CXXFLAGS=-std=c++14 -Iinclude -fPIC
+CXXFLAGS=-std=c++14 -Iinclude -fPIC -pthread
 
 all : bin/marker
 
@@ -26,7 +26,11 @@ lib/libmarker.so : tmp/Marker.o tmp/Pencil.o tmp/PencilMarker.o tmp/BadMarkerSta
 tmp/main.o : src/main.cpp include/Marker.h include/Pencil.h include/PencilMarker.h include/WritingUtensil.h include/BadMarkerState.h include/Color.h
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
+tmp/mtmain.o : src/mtmain.cpp include/Marker.h include/Pencil.h include/PencilMarker.h include/WritingUtensil.h include/BadMarkerState.h include/Color.h
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
 bin/marker : tmp/main.o lib/libmarker.so
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-
+bin/pusher : tmp/mtmain.o lib/libmarker.so
+	$(CXX) $(CXXFLAGS) -o $@ $^ -lpthread
